@@ -28,7 +28,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"message": "Typeform Clone API is running"}
+    return {"message": "Typeform API is running"}
 
 # --- Auth Endpoints ---
 @app.post("/api/auth/register", response_model=schemas.User)
