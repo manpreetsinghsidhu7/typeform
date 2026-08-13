@@ -14,9 +14,12 @@ app = FastAPI(title="Typeform Clone API")
 
 # Setup CORS
 origins = [
-    os.getenv("FRONTEND_URL", "http://localhost:3000"),
-    # Add Vercel URL here or configure via ENV
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
+frontend_env = os.getenv("FRONTEND_URL")
+if frontend_env:
+    origins.append(frontend_env)
 
 app.add_middleware(
     CORSMiddleware,
