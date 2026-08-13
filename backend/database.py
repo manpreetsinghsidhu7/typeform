@@ -7,9 +7,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./typeform.db")
+auth_token = os.getenv("TURSO_AUTH_TOKEN")
 
-# Only use check_same_thread for standard sqlite, not libSQL/Turso
-connect_args = {"check_same_thread": False} if SQLALCHEMY_DATABASE_URL.startswith("sqlite:///") and not SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql") else {}
+connect_args = {}
+if SQLALCHEMY_DATABASE_URL.startswith("sqlite:///") and not SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql"):
+    connect_args = {"check_same_thread": False}
+elif SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql") and auth_token:
+    connect_args = {"auth_token": auth_token}
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL, connect_args=connect_args
