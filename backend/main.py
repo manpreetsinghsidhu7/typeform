@@ -30,6 +30,12 @@ app.add_middleware(
 def read_root():
     return {"message": "Typeform API is running"}
 
+import seed
+@app.get("/api/run-seed")
+def run_seed():
+    seed.seed_data()
+    return {"message": "Database successfully seeded via API!"}
+
 # --- Auth Endpoints ---
 @app.post("/api/auth/register", response_model=schemas.User)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
