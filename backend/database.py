@@ -12,7 +12,9 @@ auth_token = os.getenv("TURSO_AUTH_TOKEN")
 connect_args = {}
 if SQLALCHEMY_DATABASE_URL.startswith("sqlite:///") and not SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql"):
     connect_args = {"check_same_thread": False}
-elif SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql") and auth_token:
+elif SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql"):
+    if not auth_token:
+        raise ValueError("CRITICAL ERROR: TURSO_AUTH_TOKEN environment variable is missing or empty on Render!")
     connect_args = {"auth_token": auth_token}
 
 engine = create_engine(
