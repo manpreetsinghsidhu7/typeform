@@ -18,11 +18,11 @@ def seed_data():
         # ========================================================
         # 0. ADMIN USER
         # ========================================================
-        hashed_password = auth.get_password_hash("admin123")
+        hashed_password = auth.get_password_hash("@Admin123")
 
         admin_user = models.User(
             username="admin",
-            email="admin@example.com",
+            email="admin@typeform.in",
             hashed_password=hashed_password
         )
 

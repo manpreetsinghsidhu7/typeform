@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable or fallback to localhost for development
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://typeform-backend-k4or.onrender.com/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.typeform.projects.manpreetsidhu.in/api' || 'http://localhost:8000/api';
 
 export const api = axios.create({
   baseURL: API_URL,

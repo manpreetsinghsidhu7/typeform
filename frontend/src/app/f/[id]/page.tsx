@@ -121,17 +121,17 @@ export default function RespondentFlow() {
     }
   };
 
-  if (loading) return <div className="flex h-screen items-center justify-center bg-white"><p className="text-gray-400 font-light text-xl tracking-wider">Loading...</p></div>;
-  if (error) return <div className="flex h-screen items-center justify-center bg-white"><p className="text-red-500 font-light text-xl">{error}</p></div>;
+  if (loading) return <div className="flex h-screen items-center justify-center bg-white dark:bg-[#0a0a0a] transition-colors"><p className="text-neutral-400 dark:text-neutral-500 font-light text-xl tracking-wider">Loading...</p></div>;
+  if (error) return <div className="flex h-screen items-center justify-center bg-white dark:bg-[#0a0a0a] transition-colors"><p className="text-red-500 font-light text-xl">{error}</p></div>;
   if (!form) return null;
 
   if (isSubmitted) {
     return (
-      <div className="flex h-screen items-center justify-center bg-black text-white p-8">
+      <div className="flex h-screen items-center justify-center bg-black dark:bg-[#0a0a0a] text-white p-8 transition-colors">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center max-w-lg">
           <Check size={64} className="mx-auto mb-6 text-green-400" />
-          <h1 className="text-4xl font-semibold mb-4">Thank you!</h1>
-          <p className="text-gray-400 text-xl font-light">Your response has been recorded.</p>
+          <h1 className="text-4xl font-semibold mb-4 text-white">Thank you!</h1>
+          <p className="text-neutral-400 text-xl font-light">Your response has been recorded.</p>
         </motion.div>
       </div>
     );
@@ -141,17 +141,17 @@ export default function RespondentFlow() {
   const progress = ((currentQuestionIndex) / form.questions.length) * 100;
 
   return (
-    <div className="flex flex-col h-screen bg-white text-black font-sans overflow-hidden select-none">
+    <div className="flex flex-col h-screen bg-white dark:bg-[#0a0a0a] text-black dark:text-white font-sans overflow-hidden select-none transition-colors">
 
       {/* Progress Bar */}
-      <div className="h-1 bg-gray-100 w-full fixed top-0 left-0 z-50">
-        <div className="h-full bg-black transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
+      <div className="h-1 bg-neutral-100 dark:bg-neutral-800 w-full fixed top-0 left-0 z-50">
+        <div className="h-full bg-black dark:bg-white transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
 
       {/* Exit Button */}
       <button 
         onClick={() => router.push('/dashboard')}
-        className="fixed top-6 right-6 z-50 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-black focus:outline-none"
+        className="fixed top-6 right-6 z-50 p-2 rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-neutral-400 hover:text-black dark:hover:text-white focus:outline-none"
         title="Exit to dashboard"
       >
         <X size={24} />
@@ -169,14 +169,14 @@ export default function RespondentFlow() {
             className="w-full"
           >
             <div className="flex items-start mb-2">
-              <span className="text-xl text-gray-400 font-medium mr-4 mt-1">{currentQuestionIndex + 1}</span>
+              <span className="text-xl text-neutral-400 dark:text-neutral-500 font-medium mr-4 mt-1">{currentQuestionIndex + 1}</span>
               <div>
                 <h1 className="text-3xl md:text-4xl font-semibold leading-tight tracking-tight mb-2">
                   {currentQuestion.title}
                   {currentQuestion.is_required && <span className="text-red-500 ml-2 text-2xl">*</span>}
                 </h1>
                 {currentQuestion.description && (
-                  <p className="text-xl text-gray-500 font-light mb-8">{currentQuestion.description}</p>
+                  <p className="text-xl text-neutral-500 dark:text-neutral-400 font-light mb-8">{currentQuestion.description}</p>
                 )}
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function RespondentFlow() {
                   value={answers[currentQuestion.id] || ''}
                   onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
                   placeholder="Type your answer here..."
-                  className="w-full text-3xl font-light border-b-2 border-gray-200 focus:border-black outline-none py-2 bg-transparent transition-colors placeholder:text-gray-300"
+                  className="w-full text-3xl font-light border-b-2 border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none py-2 bg-transparent transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
                 />
               )}
 
@@ -202,7 +202,7 @@ export default function RespondentFlow() {
                   onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
                   placeholder="Type your answer here..."
                   rows={3}
-                  className="w-full text-2xl font-light border-b-2 border-gray-200 focus:border-black outline-none py-2 bg-transparent transition-colors placeholder:text-gray-300 resize-none"
+                  className="w-full text-2xl font-light border-b-2 border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none py-2 bg-transparent transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600 resize-none"
                 />
               )}
 
@@ -214,7 +214,7 @@ export default function RespondentFlow() {
                   value={answers[currentQuestion.id] || ''}
                   onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
                   placeholder="name@example.com"
-                  className="w-full text-3xl font-light border-b-2 border-gray-200 focus:border-black outline-none py-2 bg-transparent transition-colors placeholder:text-gray-300"
+                  className="w-full text-3xl font-light border-b-2 border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none py-2 bg-transparent transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
                 />
               )}
 
@@ -226,7 +226,7 @@ export default function RespondentFlow() {
                   value={answers[currentQuestion.id] || ''}
                   onChange={(e) => handleAnswerChange(currentQuestion.id, e.target.value)}
                   placeholder="Enter a number"
-                  className="w-full text-3xl font-light border-b-2 border-gray-200 focus:border-black outline-none py-2 bg-transparent transition-colors placeholder:text-gray-300"
+                  className="w-full text-3xl font-light border-b-2 border-neutral-200 dark:border-neutral-800 focus:border-black dark:focus:border-white outline-none py-2 bg-transparent transition-colors placeholder:text-neutral-300 dark:placeholder:text-neutral-600"
                 />
               )}
 
@@ -243,9 +243,9 @@ export default function RespondentFlow() {
                           handleAnswerChange(currentQuestion.id, opt);
                           setTimeout(goNext, 300); // Auto-advance after choice
                         }}
-                        className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all cursor-pointer ${isSelected ? 'border-black bg-black/5' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'}`}
+                        className={`flex items-center gap-4 p-4 rounded-xl border-2 transition-all cursor-pointer ${isSelected ? 'border-black dark:border-white bg-black/5 dark:bg-white/10' : 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#111] hover:bg-neutral-100 dark:hover:bg-[#1a1a1a]'}`}
                       >
-                        <div className={`w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-black text-white' : 'bg-white border text-gray-500'}`}>
+                        <div className={`w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-white dark:bg-[#222] border dark:border-neutral-700 text-neutral-500 dark:text-neutral-400'}`}>
                           {letter}
                         </div>
                         <span className="text-xl font-light">{opt}</span>
@@ -268,9 +268,9 @@ export default function RespondentFlow() {
                           handleAnswerChange(currentQuestion.id, opt);
                           setTimeout(goNext, 300);
                         }}
-                        className={`flex items-center gap-4 px-8 py-5 rounded-xl border-2 transition-all cursor-pointer ${isSelected ? 'border-black bg-black/5' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'}`}
+                        className={`flex items-center gap-4 px-8 py-5 rounded-xl border-2 transition-all cursor-pointer ${isSelected ? 'border-black dark:border-white bg-black/5 dark:bg-white/10' : 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#111] hover:bg-neutral-100 dark:hover:bg-[#1a1a1a]'}`}
                       >
-                        <div className={`w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-black text-white' : 'bg-white border text-gray-500'}`}>
+                        <div className={`w-8 h-8 rounded-md flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-black dark:bg-white text-white dark:text-black' : 'bg-white dark:bg-[#222] border dark:border-neutral-700 text-neutral-500 dark:text-neutral-400'}`}>
                           {letter}
                         </div>
                         <span className="text-xl font-light">{opt}</span>
@@ -292,7 +292,7 @@ export default function RespondentFlow() {
                           handleAnswerChange(currentQuestion.id, rating.toString());
                           setTimeout(goNext, 300);
                         }}
-                        className={`w-14 h-14 flex items-center justify-center rounded-xl border-2 text-2xl transition-all cursor-pointer ${isSelected ? 'border-black bg-black text-white' : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100'}`}
+                        className={`w-14 h-14 flex items-center justify-center rounded-xl border-2 text-2xl transition-all cursor-pointer ${isSelected ? 'border-black dark:border-white bg-black dark:bg-white text-white dark:text-black' : 'border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-[#111] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-[#1a1a1a]'}`}
                       >
                         {rating}
                       </div>
@@ -305,13 +305,13 @@ export default function RespondentFlow() {
                 <button
                   onClick={goNext}
                   disabled={currentQuestion.is_required && !answers[currentQuestion.id]}
-                  className="bg-black text-white px-6 py-3 rounded-md font-medium text-lg flex items-center gap-2 hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="bg-black dark:bg-white text-white dark:text-black px-6 py-3 rounded-md font-medium text-lg flex items-center gap-2 hover:bg-neutral-800 dark:hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   {currentQuestionIndex === form.questions.length - 1 ? (isSubmitting ? 'Submitting...' : 'Submit') : 'OK'}
                   <Check size={20} />
                 </button>
-                <span className="text-xs text-gray-400 font-medium tracking-wider hidden sm:inline-block">
-                  press <b className="font-bold">Enter ↵</b>
+                <span className="text-xs text-neutral-400 dark:text-neutral-500 font-medium tracking-wider hidden sm:inline-block">
+                  press <b className="font-bold text-neutral-500 dark:text-neutral-300">Enter ↵</b>
                 </span>
               </div>
             </div>
@@ -321,10 +321,10 @@ export default function RespondentFlow() {
 
       {/* Navigation Controls */}
       <div className="fixed bottom-0 right-0 p-8 flex gap-2">
-        <button onClick={goPrev} disabled={currentQuestionIndex === 0} className="w-10 h-10 bg-black text-white rounded flex items-center justify-center disabled:opacity-30 hover:bg-gray-800 transition-colors">
+        <button onClick={goPrev} disabled={currentQuestionIndex === 0} className="w-10 h-10 bg-black dark:bg-white text-white dark:text-black rounded flex items-center justify-center disabled:opacity-30 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors">
           <ChevronUp size={20} />
         </button>
-        <button onClick={goNext} disabled={currentQuestionIndex === form.questions.length - 1 && (!answers[currentQuestion.id] && currentQuestion.is_required)} className="w-10 h-10 bg-black text-white rounded flex items-center justify-center disabled:opacity-30 hover:bg-gray-800 transition-colors">
+        <button onClick={goNext} disabled={currentQuestionIndex === form.questions.length - 1 && (!answers[currentQuestion.id] && currentQuestion.is_required)} className="w-10 h-10 bg-black dark:bg-white text-white dark:text-black rounded flex items-center justify-center disabled:opacity-30 hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors">
           <ChevronDown size={20} />
         </button>
       </div>

@@ -65,22 +65,22 @@ export default function Results() {
     link.click();
   };
 
-  if (authLoading || loading) return <div className="flex h-screen items-center justify-center bg-gray-50"><p>Loading results...</p></div>;
+  if (authLoading || loading) return <div className="flex h-screen items-center justify-center bg-neutral-50 dark:bg-[#0a0a0a] transition-colors"><p className="text-neutral-500 dark:text-neutral-400">Loading results...</p></div>;
   if (!isAuthenticated) return null;
-  if (!form) return <div className="flex h-screen items-center justify-center bg-gray-50"><p>Form not found.</p></div>;
+  if (!form) return <div className="flex h-screen items-center justify-center bg-neutral-50 dark:bg-[#0a0a0a] transition-colors"><p className="text-neutral-500 dark:text-neutral-400">Form not found.</p></div>;
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <header className="h-14 bg-white border-b flex items-center justify-between px-6 shrink-0">
+    <div className="flex flex-col h-screen bg-neutral-50 dark:bg-[#0a0a0a] transition-colors text-black dark:text-white">
+      <header className="h-14 bg-white dark:bg-[#111] border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between px-6 shrink-0 transition-colors">
         <div className="flex items-center gap-4">
-          <button onClick={() => router.push('/dashboard')} className="p-2 hover:bg-gray-100 rounded-md text-gray-500 hover:text-black">
+          <button onClick={() => router.push('/dashboard')} className="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-md text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white transition-colors">
             <ArrowLeft size={18} />
           </button>
           <h1 className="font-semibold text-lg">{form.title} - Results</h1>
         </div>
         <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-500">{responses.length} response{responses.length !== 1 && 's'}</span>
-          <button onClick={exportCSV} disabled={responses.length === 0} className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium border rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+          <span className="text-sm text-neutral-500 dark:text-neutral-400">{responses.length} response{responses.length !== 1 && 's'}</span>
+          <button onClick={exportCSV} disabled={responses.length === 0} className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium border border-neutral-200 dark:border-neutral-700 rounded-md hover:bg-neutral-50 dark:hover:bg-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-neutral-700 dark:text-neutral-300">
             <Download size={16} /> Export CSV
           </button>
         </div>
@@ -88,15 +88,15 @@ export default function Results() {
 
       <main className="flex-1 overflow-auto p-8">
         {responses.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-             <h2 className="text-xl font-medium text-gray-700 mb-2">No responses yet</h2>
-             <p className="text-gray-500">Share your form link to start collecting data.</p>
+          <div className="bg-white dark:bg-[#111] rounded-xl border border-neutral-200 dark:border-neutral-800 p-12 text-center transition-colors">
+             <h2 className="text-xl font-medium text-neutral-700 dark:text-neutral-300 mb-2">No responses yet</h2>
+             <p className="text-neutral-500 dark:text-neutral-400">Share your form link to start collecting data.</p>
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-white dark:bg-[#111] rounded-xl border border-neutral-200 dark:border-neutral-800 overflow-hidden transition-colors">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-gray-600">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+              <table className="w-full text-left text-sm text-neutral-600 dark:text-neutral-300">
+                <thead className="text-xs text-neutral-700 dark:text-neutral-400 uppercase bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 transition-colors">
                   <tr>
                     <th className="px-6 py-4 font-medium whitespace-nowrap">Submitted At</th>
                     {form.questions.map((q) => (
@@ -108,7 +108,7 @@ export default function Results() {
                 </thead>
                 <tbody>
                   {responses.map((response) => (
-                    <tr key={response.id} className="border-b hover:bg-gray-50">
+                    <tr key={response.id} className="border-b border-neutral-200 dark:border-neutral-800 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         {new Date(response.submitted_at).toLocaleString()}
                       </td>
@@ -116,7 +116,7 @@ export default function Results() {
                         const answer = response.answers.find(a => a.question_id === q.id);
                         return (
                           <td key={q.id} className="px-6 py-4">
-                            {answer ? answer.value : <span className="text-gray-300">-</span>}
+                            {answer ? answer.value : <span className="text-neutral-300 dark:text-neutral-600">-</span>}
                           </td>
                         );
                       })}
