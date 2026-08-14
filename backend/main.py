@@ -30,6 +30,7 @@ app.add_middleware(
 )
 
 @app.get("/")
+@app.head("/")
 def read_root():
     return {"message": "Typeform API is running"}
 
