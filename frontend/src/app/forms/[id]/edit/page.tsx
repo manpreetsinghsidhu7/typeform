@@ -157,7 +157,7 @@ export default function FormBuilder() {
       {/* Header */}
       <header className="h-14 bg-white border-b flex items-center justify-between px-4 shrink-0">
         <div className="flex items-center gap-4">
-          <button onClick={() => router.push('/')} className="p-2 hover:bg-gray-100 rounded-md text-gray-500 hover:text-black">
+          <button onClick={() => router.push('/dashboard')} className="p-2 hover:bg-gray-100 rounded-md text-gray-500 hover:text-black">
             <ArrowLeft size={18} />
           </button>
           <input

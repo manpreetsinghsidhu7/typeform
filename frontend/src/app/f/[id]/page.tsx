@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { Form, Question } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, X } from "lucide-react";
 
 export default function RespondentFlow() {
   const params = useParams();
@@ -30,7 +30,7 @@ export default function RespondentFlow() {
   useEffect(() => {
     if (isSubmitted) {
       const timer = setTimeout(() => {
-        router.push('/');
+        router.push('/dashboard');
       }, 3000);
       return () => clearTimeout(timer);
     }
@@ -147,6 +147,15 @@ export default function RespondentFlow() {
       <div className="h-1 bg-gray-100 w-full fixed top-0 left-0 z-50">
         <div className="h-full bg-black transition-all duration-500 ease-out" style={{ width: `${progress}%` }} />
       </div>
+
+      {/* Exit Button */}
+      <button 
+        onClick={() => router.push('/dashboard')}
+        className="fixed top-6 right-6 z-50 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-black focus:outline-none"
+        title="Exit to dashboard"
+      >
+        <X size={24} />
+      </button>
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col justify-center max-w-4xl w-full mx-auto p-8 relative" onKeyDown={handleKeyDown}>

@@ -1,30 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    // If user explicitly visits login, we log them out.
+    localStorage.removeItem("typeform_token");
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
     setLoading(true);
+    setError("");
+
     try {
       const formData = new URLSearchParams();
-      formData.append("username", username);
+      formData.append("username", email);
       formData.append("password", password);
 
       const res = await api.post("/auth/login", formData, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" }
       });
       localStorage.setItem("typeform_token", res.data.access_token);
-      router.push("/");
+      router.push("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.detail || "Invalid credentials");
     } finally {
@@ -33,52 +39,117 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-      <div className="w-full max-w-md space-y-8 bg-white p-10 rounded-2xl shadow-sm border border-gray-100">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Admin Login
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Need an account? <a href="/register" className="font-medium text-black hover:underline">Register here</a>
-          </p>
+    <div className="flex min-h-screen bg-white">
+      {/* Top Navbar */}
+      <div className="fixed top-0 w-full h-16 flex items-center justify-between px-6 z-50 bg-white">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
+          <div className="w-5 h-5 bg-[#191919] flex items-center justify-center rounded-sm">
+            <div className="w-1.5 h-1.5 bg-white rounded-sm" />
+          </div>
+          <span className="font-bold tracking-tight text-[#191919]">Typeform</span>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          <div className="-space-y-px rounded-md shadow-sm">
+        <div className="text-sm font-medium text-gray-500">
+          Have a question? <span className="underline cursor-pointer hover:text-gray-900">Contact us</span>
+        </div>
+      </div>
+
+      {/* Left Column - Auth */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-8 pt-16">
+        <div className="w-full max-w-sm">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">Log in</h1>
+          <p className="text-gray-500 mb-8 font-light text-sm">
+            Build forms, gather responses, and automate your workflows.
+          </p>
+
+          <div className="space-y-3 mb-6 relative group">
+            <button disabled className="w-full border border-gray-200 rounded-md py-2.5 flex items-center justify-center gap-2 font-medium text-sm text-gray-700 opacity-60 cursor-not-allowed">
+              <svg className="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+              Continue with Google
+            </button>
+            <button disabled className="w-full border border-gray-200 rounded-md py-2.5 flex items-center justify-center gap-2 font-medium text-sm text-gray-700 opacity-60 cursor-not-allowed">
+              <svg className="w-5 h-5" viewBox="0 0 21 21"><path d="M10 0H0v10h10V0z" fill="#f25022"/><path d="M21 0H11v10h10V0z" fill="#7fba00"/><path d="M10 11H0v10h10V11z" fill="#00a4ef"/><path d="M21 11H11v10h10V11z" fill="#ffb900"/></svg>
+              Continue with Microsoft
+            </button>
+            <div className="absolute top-0 left-full ml-4 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-gray-900 text-white text-xs px-2 py-1 rounded">
+              Coming soon
+            </div>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && <div className="text-red-500 text-sm font-medium">{error}</div>}
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
               <input
                 type="text"
                 required
-                className="relative block w-full rounded-t-md border-0 py-3 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
+                placeholder="Enter your username or email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input
                 type="password"
                 required
-                className="relative block w-full rounded-b-md border-0 py-3 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-black sm:text-sm sm:leading-6"
-                placeholder="Password"
+                className="w-full border border-gray-300 rounded-md px-3 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-black transition-colors"
+                placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-          </div>
-
-          {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-
-          <div>
+            
             <button
               type="submit"
               disabled={loading}
-              className="group relative flex w-full justify-center rounded-md bg-black px-3 py-3 text-sm font-semibold text-white hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black transition-colors disabled:opacity-50"
+              className="w-full bg-[#191919] text-white rounded-md py-2.5 text-sm font-medium hover:bg-gray-800 transition-colors"
             >
-              {loading ? "Signing in..." : "Sign in"}
+              {loading ? "Logging in..." : "Continue with email"}
             </button>
+          </form>
+
+          <div className="mt-8 text-center text-sm text-gray-500">
+            Don't have an account? <span onClick={() => router.push("/register")} className="underline cursor-pointer hover:text-gray-900">Sign up</span>
           </div>
-        </form>
+        </div>
+      </div>
+
+      {/* Right Column - Carousel UI */}
+      <div className="hidden lg:flex w-1/2 bg-[#2E2833] items-center justify-center p-12 overflow-hidden relative">
+        <div className="text-center z-10 w-full max-w-lg">
+          <h2 className="text-2xl font-light text-white mb-8">
+            Continue exploring powerful features <br />
+            that make data collection effortless
+          </h2>
+          
+          <div className="w-full aspect-[16/10] border border-gray-600 rounded-xl bg-[#1D1A21] p-6 relative overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 to-transparent" />
+            <h3 className="text-white text-sm font-medium mb-1 relative z-10">Automate workflows <span className="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded ml-2 uppercase tracking-wide">Coming soon</span></h3>
+            <p className="text-gray-400 text-xs mb-8 relative z-10">Use AI to spot patterns and trigger follow-ups</p>
+            
+            <div className="relative z-10 space-y-3">
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-3 w-2/3 border border-white/10 flex items-center gap-3 ml-auto text-white text-sm shadow-xl transform translate-x-4">
+                <div className="w-6 h-6 bg-purple-500 rounded flex items-center justify-center">✉️</div>
+                Send SMS reminder
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-3 w-3/4 border border-white/10 flex items-center gap-3 mx-auto text-white text-sm shadow-xl transform -translate-x-2">
+                <div className="w-6 h-6 bg-blue-500 rounded flex items-center justify-center">📧</div>
+                Send follow-up email
+              </div>
+              <div className="bg-white/10 backdrop-blur-md rounded-lg p-3 w-1/2 border border-white/10 flex items-center gap-3 text-white text-sm shadow-xl">
+                <div className="w-6 h-6 bg-pink-500 rounded flex items-center justify-center">✨</div>
+                Identify trends
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex items-center justify-center gap-2 mt-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-white opacity-50" />
+            <div className="w-1.5 h-1.5 rounded-full bg-white" />
+            <div className="w-1.5 h-1.5 rounded-full bg-white opacity-50" />
+          </div>
+        </div>
       </div>
     </div>
   );

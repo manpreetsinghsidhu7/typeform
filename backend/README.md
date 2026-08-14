@@ -1,6 +1,6 @@
-# Typeform Clone - Backend
+# Typeform - Backend
 
-This is the FastAPI backend for the Typeform Clone project. It handles database operations for forms, questions, and responses.
+This is the FastAPI backend for the Typeform project. It handles database operations for forms, questions, and responses.
 
 ## Tech Stack
 - Python 3.9+

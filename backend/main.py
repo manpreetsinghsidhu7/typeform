@@ -10,7 +10,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Typeform Clone API")
+app = FastAPI(title="Typeform API")
 
 # Setup CORS
 origins = [

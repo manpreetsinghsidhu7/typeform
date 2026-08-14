@@ -1,6 +1,6 @@
-# Typeform Clone - Frontend
+# Typeform - Frontend
 
-This is the Next.js frontend for the Typeform Clone project. It provides the form builder, form management dashboard, and the one-question-at-a-time respondent flow.
+This is the Next.js frontend for the Typeform project. It provides the form builder, form management dashboard, and the one-question-at-a-time respondent flow.
 
 ## Tech Stack
 - Next.js 14+ (App Router)

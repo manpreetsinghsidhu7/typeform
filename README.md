@@ -1,6 +1,10 @@
-# Typeform Clone
+# Typeform
 
-A full-stack, animated Typeform clone built with Next.js, FastAPI, and SQLite. This project is a minimal, beautifully designed application that replicates the core form-building and form-filling experience of Typeform.
+A full-stack, animated Typeform built with Next.js, FastAPI, and SQLite. This project is a minimal, beautifully designed application that replicates the core form-building and form-filling experience of Typeform.
+
+## Live Links
+- **Frontend**: [https://typeform.projects.manpreetsidhu.in](https://typeform.projects.manpreetsidhu.in)
+- **API**: [https://api.typeform.projects.manpreetsidhu.in](https://api.typeform.projects.manpreetsidhu.in)
 
 ## Features
 - **Form Builder**: Drag-and-drop form creation with various question types.
