@@ -17,8 +17,13 @@ elif SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql"):
         raise ValueError("CRITICAL ERROR: TURSO_AUTH_TOKEN environment variable is missing or empty on Render!")
     connect_args = {"auth_token": auth_token}
 
+engine_kwargs = {"connect_args": connect_args}
+if SQLALCHEMY_DATABASE_URL.startswith("sqlite+libsql"):
+    engine_kwargs["pool_pre_ping"] = True
+    engine_kwargs["pool_recycle"] = 300
+
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args=connect_args
+    SQLALCHEMY_DATABASE_URL, **engine_kwargs
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
