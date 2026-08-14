@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("admin");
+  const [password, setPassword] = useState("@Admin123");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -97,12 +97,12 @@ export default function Login() {
             {error && <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-md">{error}</div>}
             
             <div>
-              <label className="block text-sm text-neutral-600 mb-1">Email</label>
+              <label className="block text-sm text-neutral-600 mb-1">Email or Username</label>
               <input
                 type="text"
                 required
                 className="w-full border border-neutral-200 rounded-md px-3 py-2.5 text-sm text-neutral-900 focus:outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-400 transition-shadow"
-                placeholder="Enter your email address"
+                placeholder="Enter your email or username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />

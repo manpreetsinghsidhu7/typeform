@@ -55,11 +55,15 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 @app.post("/api/auth/login", response_model=schemas.Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = crud.get_user_by_username(db, username=form_data.username)
+    if "@" in form_data.username:
+        user = crud.get_user_by_email(db, email=form_data.username)
+    else:
+        user = crud.get_user_by_username(db, username=form_data.username)
+        
     if not user or not auth.verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=401,
-            detail="Incorrect username or password",
+            detail="Incorrect email/username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token = auth.create_access_token(data={"sub": user.username})

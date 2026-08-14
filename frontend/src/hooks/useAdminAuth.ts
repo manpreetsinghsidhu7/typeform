@@ -8,12 +8,42 @@ export function useAdminAuth(requireAuth = true) {
   const [userInitial, setUserInitial] = useState("A");
 
   useEffect(() => {
-    const token = localStorage.getItem("typeform_token");
-    if (!token) {
-      if (requireAuth) {
-        router.push("/login");
+    const authenticate = async () => {
+      let token = localStorage.getItem("typeform_token");
+      
+      if (!token && requireAuth) {
+        // Attempt to auto-login with default seeded admin credentials
+        try {
+          const formData = new URLSearchParams();
+          formData.append("username", "admin");
+          formData.append("password", "@Admin123");
+          
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: formData,
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            token = data.access_token;
+            localStorage.setItem("typeform_token", token as string);
+          }
+        } catch (e) {
+          console.error("Auto-login failed:", e);
+        }
       }
-    } else {
+
+      if (!token) {
+        if (requireAuth) {
+          router.push("/login");
+        } else {
+          setIsLoading(false);
+        }
+        return;
+      }
+
+      // We have a token
       setIsAuthenticated(true);
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -23,8 +53,10 @@ export function useAdminAuth(requireAuth = true) {
       } catch (e) {
         console.error("Invalid token");
       }
-    }
-    setIsLoading(false);
+      setIsLoading(false);
+    };
+
+    authenticate();
   }, [router, requireAuth]);
 
   return { isAuthenticated, isLoading, userInitial };
